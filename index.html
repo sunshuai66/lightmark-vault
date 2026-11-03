@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#365fd2">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'">
+  <title>轻划 LightMark · 手机收集箱</title>
+  <link rel="icon" href="icon32.png">
+  <link rel="apple-touch-icon" href="icon128.png">
+  <link rel="stylesheet" href="vault.css">
+  <script src="web-adapter.js" defer></script>
+  <script src="bookmarklet.js" defer></script>
+  <script src="vault-store.js" defer></script>
+  <script src="format.js" defer></script>
+  <script src="docx.js" defer></script>
+  <script src="download.js" defer></script>
+  <script src="vault.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="brand">
+      <img src="icon128.png" width="44" height="44" alt="轻划 Logo">
+      <div><span class="brand-name">轻划 LightMark</span><p>轻划一下，静默收录。<br class="mobile-break">全网好内容，一键导出神仙文档。</p></div>
+      <span class="badge local">本机保存</span>
+    </header>
+
+    <section class="intro"><p class="eyebrow">轻划 · 手机收集箱</p><h1>好内容，慢慢收。</h1><p>从不同网页带回来的摘录，在这里整理成一份文档。</p></section>
+
+    <section class="controls surface" aria-label="项目与导出">
+      <div class="project-row"><label for="projectSelect">当前项目</label><select id="projectSelect" disabled></select><span class="badge" id="clipCount">0 条摘录</span></div>
+      <form id="projectForm" class="project-form"><input id="projectName" maxlength="40" placeholder="新建项目名称" aria-label="新建项目名称" disabled><button id="addProject" type="submit" class="secondary" disabled>新建</button></form>
+      <div class="exports"><a id="exportWord" class="button primary" aria-disabled="true" tabindex="-1">导出 Word 文档 <span aria-hidden="true">↗</span></a><a id="exportMarkdown" class="button secondary" aria-disabled="true" tabindex="-1">导出 Markdown</a></div>
+    </section>
+
+    <div class="notice" id="status" role="status" aria-live="polite">正在打开本机收集箱…</div>
+    <section id="pendingPanel" class="surface pending" hidden><h2>这条摘录还没保存</h2><textarea id="pendingText" readonly aria-label="待保存摘录" rows="5"></textarea><div class="actions"><button id="retrySave" class="primary" type="button">重试保存</button><button id="copyPending" class="secondary" type="button">复制这条摘录</button></div></section>
+
+    <section aria-labelledby="listHeading"><div class="section-heading"><h2 id="listHeading">按时间收录</h2><span>不做自动分类</span></div><div id="clips" class="clips"><p class="empty">正在读取…</p></div></section>
+
+    <details id="setup" class="surface setup"><summary>设置「轻划手机收录」书签</summary><div class="setup-body"><p>只需设置一次，以后在网页划选文字，点书签即可收录。</p><ol><li>点击下面的“复制手机书签代码”。</li><li>在浏览器里收藏当前页，把收藏名称改为“轻划手机收录”，再编辑它的<strong>网址</strong>，粘贴刚复制的整段代码。</li><li>重新查看书签网址，确认开头保留了 <code>javascript:</code>，代码完整，且没有变成搜索链接。</li><li>回到普通文章网页，先选约十个字，再点这个书签。看到“已收录”后，可用浏览器返回键继续阅读。</li></ol><button id="copyBookmarklet" class="primary" type="button" disabled>复制手机书签代码</button><p id="setupStatus" class="small" role="status"></p><label class="small" for="bookmarkletCode">完整代码（也可长按全选复制）</label><textarea id="bookmarkletCode" rows="3" readonly spellcheck="false" aria-label="手机书签代码"></textarea><p class="small">收集页地址：<a id="vaultAddress"></a></p><h3>夸克 / UC / 手机自带浏览器</h3><p>一般可从菜单进入“书签 / 收藏”，先收藏本页，再在书签列表中长按该项或通过“管理 → 编辑”修改网址。菜单名字因版本不同，请以手机里的实际入口为准。请把整段代码粘到<strong>书签网址</strong>里，不是搜索框。</p><p class="small">Safari 可使用“分享 → 添加书签”，再在书签列表中编辑网址。手机这里用网页书签，不安装桌面扩展 ZIP。</p><details class="troubleshooting"><summary>点了没反应，或总是没有选中文字？</summary><ul><li>检查 <code>javascript:</code> 是否被删、代码是否被截断；从本页重新完整复制。</li><li>先在普通资讯网页测试；浏览器首页、内置阅读页或受保护网页可能不执行脚本。</li><li>如果打开书签就取消文字选区，该版本可能无法可靠使用这套流程。</li><li>如果浏览器只接受 HTTP(S) 网址，或保存后总删除脚本前缀，当前版本不适用。可换允许脚本书签的浏览器，或先复制 / 分享保存。</li><li>只有显示“已收录”才算保存成功；保存失败时请用“重试”或“复制这条摘录”。</li></ul></details><p class="small">夸克、UC、Via 与各品牌自带浏览器的脚本支持随版本和网页策略不同，尚未完成全部真机验收。请先做十字测试，再开始正式收集。</p></div></details>
+
+    <footer><p>摘录保存在当前浏览器，不上传 · 请定期导出</p><p>手机收集箱与桌面扩展、其他浏览器和其他设备各自独立。<br>请固定使用同一个收集页地址；清理网站数据可能移除摘录。</p><p><a href="privacy.html" target="_blank" rel="noopener noreferrer">隐私政策</a></p></footer>
+  </main>
+</body>
+</html>
